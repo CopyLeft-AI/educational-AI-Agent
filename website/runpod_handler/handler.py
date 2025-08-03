@@ -1,6 +1,6 @@
 import os
 import shutil
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextGenerationPipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextGenerationPipeline, TextStreamer
 import runpod
 
 os.system("df -h")  # Display disk space information
@@ -184,9 +184,12 @@ def handler(job):
             formatted_prompt = format_prompt_with_system(prompt, system_to_use)
         else:
             formatted_prompt = prompt
+
+        streamer = textStreamer(tokenizer, skip_prompt=False, skip_special_tokens=True)
         
         output = pipe(
-            formatted_prompt, 
+            formatted_prompt,
+            streamer=streamer,
             max_new_tokens=max_new_tokens, 
             temperature=temperature,
             do_sample=do_sample,
