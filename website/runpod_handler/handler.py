@@ -185,7 +185,7 @@ def handler(job):
         else:
             formatted_prompt = prompt
 
-        streamer = textStreamer(tokenizer, skip_prompt=False, skip_special_tokens=True)
+        streamer = TextStreamer(tokenizer, skip_prompt=False, skip_special_tokens=True)
         
         output = pipe(
             formatted_prompt,
