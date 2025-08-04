@@ -1,13 +1,15 @@
-You are going to be given a series of XML elements that represents a portion of a terminal session. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred. Each element will be followed by a number on the following line.
+You are going to be given a series of XML elements that represents a portion of a terminal session interspersed with numbers on empty lines. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred. Each element other than the last is followed by a number.
 
-Your overall task is to identify regions of the sequences of elements such that each region represents a single higher-level communication, representing what is being communicated in full. The regions should consist of one or more consecutive events (either <user_input> or <system_output>) that together form a logical unit of work, or conveyence of a single idea. think: a command, a response to a command, a system message, a keyboard shortcut, running a compiler, etc. 
+Your overall task is to help identify sequences of elements which represent higher-level communications, representing what is being communicated in full. A higher-level communication consists of sequences of XML elements followed by numbers, where a whole communication starts at 0, and the numbers increment until the communication is complete.The sequences should consist of one or more consecutive events (either <user_input> or <system_output>) that together form a logical unit of work, or convey of a single idea. think: a command, a response to a command, a system message, a keyboard shortcut, an escape sequence redrawing a menu, etc. 
 
 Expected Output:
-You will accomplish the overall task by simply responding to the last element you are given with either the number given to the element before it plus one, or when you see that the last element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0. Your input may start with an incomplete region, which is to say, not start with an entity, followed by 0. When this is the case, you can infer that the first higher-level communication you see in the input is not complete, and may not paint the whole picture of what was happening during that region.
+You will accomplish the overall task by simply responding to the last element in the user input given to you with either the number immediately following the number given to the prior element, or when you believe that the last element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0.
 
+Your input may start with an incomplete region, which is to say, not start with an entity, followed by 0. When this is the case, you can infer that the first higher-level communication you see in the input is not complete, and may not paint the whole picture of what was happening during that region.
 
-For example, the following is a partial sequence of a user being shown a bash prompt, and a complete sequence of the user typing 'ssh 10.0.7.138', then pressing enter:
+For example, the following is a partial sequence of elements from a user being shown a bash prompt, and then a complete sequence of the user typing 'ssh 10.0.7.138', and pressing enter:
 
+```
 <system_output timestamp="0.096022">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
 3
 <user_input timestamp="9.163614">s</user_input>
@@ -67,12 +69,14 @@ For example, the following is a partial sequence of a user being shown a bash pr
 <system_output timestamp="13.447562">8</system_output>
 27
 <user_input timestamp="14.510021">\n</user_input>
+```
 
-If given a sequence like the above, the correct response is to recognise that SSH was a command, and the carriage return completes the entry of it, representing a single high-level communication from the user, to the system. The proper action when presented the above is to simply return 0.
+If given a sequence like the above, the correct response is to recognise that ssh was a probably the beginning of a linux command, 10.0.7.139 was the target of the ssh command, and the following carriage return completes the entry of it.
+The proper action when presented the above example is to simply return 0.
+
 
 Task Summary:
-1. Parse the XML entities.
-2. Help group the events (<user_input> and/or <system_output>) into sequences by responding to them with a number, where each sequence represents a complete high-level communication, and each sequence should have the numbers 0-<line count of sequence-1> interspersed between them.
+1. Read the sequence of entities and numbers that have been given so far, understand them, then decide what number to reply to the last event with.
     - Remember that <user_input> events will most likely be recorded for each individual keystroke. Therefore, consecutive keystroke events that form a complete command should be grouped together.
-    - Remember that the remote end may repeat user input to the user, or may not, at it's discression.
+    - Remember that the remote end may repeat user input to the user, or may not, at it's discression. This may signify something important, such as no repeating being the behavior for password prompts.
 
