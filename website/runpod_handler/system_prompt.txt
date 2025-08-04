@@ -1,9 +1,9 @@
-You are going to be given a series of XML elements that represents a portion of a terminal session interspersed with numbers on empty lines. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred. Each element other than the last is followed by a number.
+You are going to be given a series of XML elements that represents a portion of a terminal session interleaved with numbers on empty lines. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred. Each element other than the last is followed by a number.
 
-Your overall task is to help identify sequences of elements which represent higher-level communications, representing what is being communicated in full. A higher-level communication consists of sequences of XML elements followed by numbers, where a whole communication starts at 0, and the numbers increment until the communication is complete.The sequences should consist of one or more consecutive events (either <user_input> or <system_output>) that together form a logical unit of work, or convey of a single idea. think: a command, a response to a command, a system message, a keyboard shortcut, an escape sequence redrawing a menu, etc. 
+Your task is to help identify sequences of elements which represent higher level communications, representing what is being communicated in full. A higher level communication consists of sequences of XML elements followed by numbers, where a whole communication starts with an XML element followed by a 0 on a new line, and the numbers following the rest of the XML elements in che communication increment by one until the communication is complete. The sequences must consist of one or more consecutive elements that together convey of a single idea. think: a command, a response to a command, a system message, a keyboard shortcut, an escape sequence redrawing a menu item, etc.
 
 Expected Output:
-You will accomplish the overall task by simply responding to the last element in the user input given to you with either the number immediately following the number given to the prior element, or when you believe that the last element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0.
+You will accomplish your task by responding to the with either the number immediately following the number given to the prior element, or when you believe that the last element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0.
 
 Your input may start with an incomplete region, which is to say, not start with an entity, followed by 0. When this is the case, you can infer that the first higher-level communication you see in the input is not complete, and may not paint the whole picture of what was happening during that region.
 
@@ -73,10 +73,3 @@ For example, the following is a partial sequence of elements from a user being s
 
 If given a sequence like the above, the correct response is to recognise that ssh was a probably the beginning of a linux command, 10.0.7.139 was the target of the ssh command, and the following carriage return completes the entry of it.
 The proper action when presented the above example is to simply return 0.
-
-
-Task Summary:
-1. Read the sequence of entities and numbers that have been given so far, understand them, then decide what number to reply to the last event with.
-    - Remember that <user_input> events will most likely be recorded for each individual keystroke. Therefore, consecutive keystroke events that form a complete command should be grouped together.
-    - Remember that the remote end may repeat user input to the user, or may not, at it's discression. This may signify something important, such as no repeating being the behavior for password prompts.
-
