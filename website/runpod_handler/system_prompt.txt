@@ -1,44 +1,72 @@
-You are going to be given a series of XML entities that represents a portion of a terminal session. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred.
+You are going to be given a series of XML elements that represents a portion of a terminal session. The XML elements each represent an event in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the event occurred. Each element will be followed by a number on the following line. for example:
 
-Your task is to identify regions of the sequences of events such that each region represents a single higher-level communication, representing what is being communicated in full. The regions should consist of one or more consecutive events (either <user_input> or <system_output>) that together form a logical unit of work, or conveyence of a single idea. think: a command, a response to a command, a system message, running a compiler, etc. To communicate that a region covers the same communication, you will respond to each element by counting them, until you see an element which is clearly not a part of the same higher level communication. Then, you are to restart your counting, by emiting '0' for the first item that is clearly from a different higher-level-communication. Note that 
+<system_output timestamp="0.096022">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
+3
+<user_input timestamp="9.163614">s</user_input>
+0
+<system_output timestamp="9.164051">s</system_output>
+1
+<user_input timestamp="9.365744">s</user_input>
+2
+<system_output timestamp="9.366263">s</system_output>
+3
+<user_input timestamp="9.589844">h</user_input>
+4
+<system_output timestamp="9.59026">h</system_output>
+5
+<user_input timestamp="9.708352"> </user_input>
+6
+<system_output timestamp="9.708844"> </system_output>
+7
+<user_input timestamp="10.1118">1</user_input>
+8
+<system_output timestamp="10.112236">1</system_output>
+9
+<user_input timestamp="10.270878">0</user_input>
+10
+<system_output timestamp="10.271223">0</system_output>
+11
+<user_input timestamp="10.471565">.</user_input>
+12
+<system_output timestamp="10.471898">.</system_output>
+13
+<user_input timestamp="10.594981">0</user_input>
+14
+<system_output timestamp="10.595383">0</system_output>
+15
+<user_input timestamp="10.757499">.</user_input>
+16
+<system_output timestamp="10.757882">.</system_output>
+17
+<user_input timestamp="11.140897">7</user_input>
+18
+<system_output timestamp="11.14119">7</system_output>
+19
+<user_input timestamp="11.603706">.</user_input>
+20
+<system_output timestamp="11.604019">.</system_output>
+21
+<user_input timestamp="12.330584">1</user_input>
+22
+<system_output timestamp="12.331455">1</system_output>
+23
+<user_input timestamp="12.632256">3</user_input>
+24
+<system_output timestamp="12.633323">3</system_output>
+25
+<user_input timestamp="13.446626">8</user_input>
+26
+<system_output timestamp="13.447562">8</system_output>
+27
+<user_input timestamp="14.510021">\n</user_input>
+0
 
-Example input sequence (note that user input events may represent only a single keystroke):
+Your overall task is to identify regions of the sequences of elements such that each region represents a single higher-level communication, representing what is being communicated in full. The regions should consist of one or more consecutive events (either <user_input> or <system_output>) that together form a logical unit of work, or conveyence of a single idea. think: a command, a response to a command, a system message, a keyboard shortcut, running a compiler, etc. 
 
-  <system_output timestamp="0.096022">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
-  <user_input timestamp="9.163614">s</user_input>
-  <system_output timestamp="9.164051">s</system_output>
-  <user_input timestamp="9.365744">s</user_input>
-  <system_output timestamp="9.366263">s</system_output>
-  <user_input timestamp="9.589844">h</user_input>
-  <system_output timestamp="9.59026">h</system_output>
-  <user_input timestamp="9.708352"> </user_input>
-  <system_output timestamp="9.708844"> </system_output>
-  <user_input timestamp="10.1118">1</user_input>
-  <system_output timestamp="10.112236">1</system_output>
-  <user_input timestamp="10.270878">0</user_input>
-  <system_output timestamp="10.271223">0</system_output>
-  <user_input timestamp="10.471565">.</user_input>
-  <system_output timestamp="10.471898">.</system_output>
-  <user_input timestamp="10.594981">0</user_input>
-  <system_output timestamp="10.595383">0</system_output>
-  <user_input timestamp="10.757499">.</user_input>
-  <system_output timestamp="10.757882">.</system_output>
-  <user_input timestamp="11.140897">7</user_input>
-  <system_output timestamp="11.14119">7</system_output>
-  <user_input timestamp="11.603706">.</user_input>
-  <system_output timestamp="11.604019">.</system_output>
-  <user_input timestamp="12.330584">1</user_input>
-  <system_output timestamp="12.331455">1</system_output>
-  <user_input timestamp="12.632256">3</user_input>
-  <system_output timestamp="12.633323">3</system_output>
-  <user_input timestamp="13.446626">8</user_input>
-  <system_output timestamp="13.447562">8</system_output>
-  <user_input timestamp="14.510021">\n</user_input>
+Expected Output:
+You will accomplish the overall task by simply responding to the last element you are given with either the number given to the element before it plus one, or when you see that the last element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0. Your input may start with an incomplete region, which is to say, not start with an entity, followed by 0. when this is the case, know that the first higher-level communication you see in the input is not complete, and may not paint the whole picture of what was happening during that region.
 
-Expected Output Format:
-For each group of events that collectively accomplish a high-level communication, output the corresponding count of elements within this event in sequential order (each on a new line). At the end of each sequence, begin your counting again, such that the next element after a completed event starts again at 0..
-
-For example, if the first high-level communication is accomplished by events on lines 1 through 3, and the next communication is accomplished by events on lines 4 through 8, you will output:
+For example, if the first high-level communication is accomplished by events on lines 1 through 3, and the next communication is accomplished by events on lines 4 through 8, then the numbers following the elements would be:
 0
 1
 2
@@ -50,9 +78,7 @@ For example, if the first high-level communication is accomplished by events on 
 
 Task Summary:
 1. Parse the XML entities.
-2. Group the events (<user_input> and <system_output>) into sequential blocks, where each block represents a complete high-level communication.
+2. Help group the events (<user_input> and/or <system_output>) into sequences by responding to them with numbers, where each sequence represents a complete high-level communication, and each sequence should have the numbers 0-<line count of block-1> interspersed between them.
     - Remember that <user_input> events will most likely be recorded for each keystroke. Therefore, consecutive keystroke events that form a complete command should be grouped together.
+    - Remember that the remote end may repeat user input to the user, or may not, at it's discression.
 
-Additional Notes:
-- The grouping must be sequential; no events should be skipped.
-- All events in a group must be consecutive in the XML snippet.
