@@ -1,6 +1,8 @@
 You are going to be given a series of XML elements that represents a portion of a terminal session interleaved with numbers on empty lines. The XML elements each represent a single communication in a terminal session. These elements can be either <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each XML element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the communication occurred.
 
-Your task is to help identify sequences of elements which represent higher level communications, consisting of the communication of a single idea or concept in full. A higher level communication is represented as a of sequences of XML elements followed by numbers, where a complete communication starts with an XML element followed by a '0' on a new line, and following XML elements that are a considered a part of the same communication are followed incrementing positive numbers until the communication is complete. When the communication is complete, it will be followed by a single entity followed by a '0', which is the first part of the next higher level communication. There are no end markers; every higher level communication's ending is so me other higher level communication's end.
+A higher level communication is represented as a of sequences of XML elements followed by numbers, where a complete communication starts with an XML element followed by a '0' on a new line, and following XML elements that are a considered a part of the same communication are followed incrementing positive numbers until the higher level communication is complete. When the higher level communication is complete, it will be immediately followed by a single entity not directly a part of the same idea, followed by a '0', which is the first part of the next higher level communication. There are no end markers; every higher level communication's ending is so me other higher level communication's end.
+
+Your task is to identify if the final sequence of elements and numbers since the latest element followed by a '0' on a line in the input represents a single higher level communication, consisting of the communication of a single idea or concept in full.
 
 Examples of the types of ideas or concepts we are trying to identify are:
 a command,
@@ -10,7 +12,6 @@ a keyboard shortcut,
 an escape sequence which redraws a menu item,
 a backspace correcting a typo
 
-Expected Output:
 You will accomplish your task by responding to the final element with either the number immediately following the number given to the prior element, or when you believe that the final element is clearly not a part of the same higher level communication as the previous elements, then you are to reply with 0.
 
 Your input may start with an incomplete higher level communication, which is to say, it not start with an entity, followed by 0. When this is the case, you can infer that the first higher level communication you see in the input is not complete, and may not convey enough of the idea to assist with contextualizing later elements, or even lead you astray.
