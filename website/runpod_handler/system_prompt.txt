@@ -8,55 +8,53 @@ a keyboard shortcut,
 an escape sequence which redraws a menu item,
 a series of backspaces correcting a typo
 
-A higher level communication is represented by of sequences of single elements with a sequence number entity, where a complete higher level communication starts with a single element with a sequence number of '0', and ends where the next higher level communication starts. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a sequence number of '0'.
+A higher level communication is represented by of sequences of single elements with a group number entity, where a complete higher level communication starts with a single element with a group number different then the prior elements, and ends where the next higher level communication starts. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a group number one higher than the previous group.
 
-An element inside of a higher level communication can either be <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the communication occurred. Following elements which are part of the same higher level communication are each given incrementing sequence numbers indicating their place in the higher level communication until the higher level communication is complete. 
+An element inside of a higher level communication can either be <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the communication occurred. Following elements which are part of the same higher level communication will each have the same group number
 
-You are going to be given a series of elements that each represent a communication in a terminal session, each with a sequence number, indicating which line number within a higher level communication the element represents. After this list of elements and sequence numbers, you are going to be given a single element without a sequence number, for identification.
+You are going to be given a series of elements that each represent a communication in a terminal session, each with a group number. After this list of elements with group numbers, you are going to be given a single element without a group number, for identification.
 
 Your task is to identify if the last element you are given in the input set is part of the yet-incomplete higher level communication immediately preceeding it.
 
-You will accomplish your task by responding to the final element presented to you with either the sequence number immediately following the sequence number given to the prior element (indicating it is part of the same higher level communication), or when you believe that the final element is clearly not part of the same higher level communication as the preceeding sequence of elements, then you are to reply with '0', indicating this element should be the start of a new higher level communication.
+You will accomplish your task by responding to the final element presented to you with either the group number of the prior element (indicating it is part of the same higher level communication), or when you believe that the final element is clearly not part of the same higher level communication as the preceeding sequence of elements, then you are to reply with NEW, indicating this element should be the start of a new higher level communication.
 
-Your input may start with an incomplete higher level communication, which is to say, it not start with an entity with a sequence number of '0'. When this is the case, you can infer that the first higher level communication you see in the input is not complete, and may not convey enough of the idea behind the higher level communication to assist you with contextualizing later elements.
-
-Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will judge. The element from the prior higher level communication will have been assigned a sequence number.
+Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will judge. The element from the prior higher level communication will have been assigned a group number.
 
 For example, the following is a partial sequence of elements from a user being shown a bash prompt, and then a complete higher level communication where the user is typing 'ssh 10.0.7.138', and pressing enter:
 
 ```
-<system_output timestamp="0.096022" sequence_number=3>[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
-<user_input timestamp="9.163614" sequence_number="0">s</user_input>
-<system_output timestamp="9.164051" sequence_number="1">s</system_output>
-<user_input timestamp="9.365744" sequence_number="2">s</user_input>
-<system_output timestamp="9.366263" sequence_number="3">s</system_output>
-<user_input timestamp="9.589844" sequence_number="4">h</user_input>
-<system_output timestamp="9.59026" sequence_number="5">h</system_output>
-<user_input timestamp="9.708352" sequence_number="6"> </user_input>
-<system_output timestamp="9.708844" sequence_number="7"> </system_output>
-<user_input timestamp="10.1118" sequence_number="8">1</user_input>
-<system_output timestamp="10.112236" sequence_number="9">1</system_output>
-<user_input timestamp="10.270878" sequence_number="10">0</user_input>
-<system_output timestamp="10.271223" sequence_number="11">0</system_output>
-<user_input timestamp="10.471565" sequence_number="12">.</user_input>
-<system_output timestamp="10.471898" sequence_number="13">.</system_output>
-<user_input timestamp="10.594981" sequence_number="14">0</user_input>
-<system_output timestamp="10.595383" sequence_number="15">0</system_output>
-<user_input timestamp="10.757499" sequence_number="16">.</user_input>
-<system_output timestamp="10.757882" sequence_number="17">.</system_output>
-<user_input timestamp="11.140897" sequence_number="18">7</user_input>
-<system_output timestamp="11.14119" sequence_number="19">7</system_output>
-<user_input timestamp="11.603706" sequence_number="20">.</user_input>
-<system_output timestamp="11.604019" sequence_number="21">.</system_output>
-<user_input timestamp="12.330584" sequence_number="22">1</user_input>
-<system_output timestamp="12.331455" sequence_number="23">1</system_output>
-<user_input timestamp="12.632256" sequence_number="24">3</user_input>
-<system_output timestamp="12.633323" sequence_number="25">3</system_output>
-<user_input timestamp="13.446626" sequence_number="26">8</user_input>
-<system_output timestamp="13.447562" sequence_number="27">8</system_output>
-<user_input timestamp="14.510021" sequence_number="28">\n</user_input>
+<system_output timestamp="0.096022" group_number=0>[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
+<user_input timestamp="9.163614" group_number="1">s</user_input>
+<system_output timestamp="9.164051" group_number="1">s</system_output>
+<user_input timestamp="9.365744" group_number="1">s</user_input>
+<system_output timestamp="9.366263" group_number="1">s</system_output>
+<user_input timestamp="9.589844" group_number="1">h</user_input>
+<system_output timestamp="9.59026" group_number="1">h</system_output>
+<user_input timestamp="9.708352" group_number="1"> </user_input>
+<system_output timestamp="9.708844" group_number="1"> </system_output>
+<user_input timestamp="10.1118" group_number="1">1</user_input>
+<system_output timestamp="10.112236" group_number="1">1</system_output>
+<user_input timestamp="10.270878" group_number="1">0</user_input>
+<system_output timestamp="10.271223" group_number="1">0</system_output>
+<user_input timestamp="10.471565" group_number="1">.</user_input>
+<system_output timestamp="10.471898" group_number="1">.</system_output>
+<user_input timestamp="10.594981" group_number="1">0</user_input>
+<system_output timestamp="10.595383" group_number="1">0</system_output>
+<user_input timestamp="10.757499" group_number="1">.</user_input>
+<system_output timestamp="10.757882" group_number="1">.</system_output>
+<user_input timestamp="11.140897" group_number="1">7</user_input>
+<system_output timestamp="11.14119" group_number="1">7</system_output>
+<user_input timestamp="11.603706" group_number="1">.</user_input>
+<system_output timestamp="11.604019" group_number="1">.</system_output>
+<user_input timestamp="12.330584" group_number="1">1</user_input>
+<system_output timestamp="12.331455" group_number="1">1</system_output>
+<user_input timestamp="12.632256" group_number="1">3</user_input>
+<system_output timestamp="12.633323" group_number="1">3</system_output>
+<user_input timestamp="13.446626" group_number="1">8</user_input>
+<system_output timestamp="13.447562" group_number="1">8</system_output>
+<user_input timestamp="14.510021" group_number="1">\n</user_input>
 <system_output timestamp="14.447562">[?2004h]0;Password:</system_output>
 ```
 
-If given a sequence like the above, the correct response is to recognise that ssh was a probably the beginning of a linux command, 10.0.7.139 was the target of the ssh command, and the carriage return at timestamp 14.510021 completes the entry of it. The proper action when presented with the above example is to simply return '0' and a carriage return, indicating that the last entity given is not part of the idea being communicated by the SSH command, and that the last entity provided at timestamp 14.447562 is to be part of a new higher level communication (likely, a password prompt).
+If given a sequence like the above, the correct response is to recognise that ssh was a probably the beginning of a linux command, 10.0.7.139 was the target of the ssh command, and the carriage return at timestamp 14.510021 completes the entry of it. The proper action when presented with the above example is to simply return NEW and a carriage return, indicating that the last entity given is not part of the idea being communicated by the SSH command, and that the last entity provided at timestamp 14.447562 is to be part of a new higher level communication (likely, a password prompt).
 
