@@ -8,11 +8,11 @@ Examples include:
  * An escape sequence that redraws a menu item
  * A series of backspaces correcting a typo
 
-A higher level communication is a series of elements with the same group number. A higher level communication begins when a new `group_number` appears, and ends when a higher `group_number` follows. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a `group_number` one higher than the previous.
+A higher level communication is a series of related elements, representing one of the above items. In the input set, a higher level communication begins when a new `group_number` appears, and ends when a higher `group_number` follows. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a `group_number` one higher than the previous. The final higher level communication in the input stream may or may not be complete.
 
 An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group_number`.
 
-You will be given a series of elements that each represent a communication in a terminal session, each with a `group_number`. Group numbers are unique, increase sequentially, and identify separate higher level communications (though they may not start at 0).
+You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group_number`. Group numbers are unique, increase sequentially, and identify separate higher level communications (though they may not start at 0).
 
 Your input will end with two elements. The first element is the last part of the prior higher level communication (with a `group_number`), and the final one is the one you will evaluate (with no `group_number` assigned).
 
