@@ -16,10 +16,6 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY handler.py .
-COPY system_prompt.txt .
-
 # Set environment variables for Python
 ENV PYTHONUNBUFFERED=1
 
@@ -40,6 +36,10 @@ RUN df -h
 # Create cache directories (these will be created in the image layer, 
 # but the actual /runpod-volume will be mounted at runtime)
 RUN mkdir -p /runpod-volume/transformers /runpod-volume/hub /runpod-volume/datasets
+
+# Copy application code
+COPY handler.py .
+COPY system_prompt.txt .
 
 # Run the handler
 CMD ["python", "handler.py"]
