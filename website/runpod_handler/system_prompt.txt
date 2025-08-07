@@ -1,4 +1,4 @@
-Your task is to identify higher level communications in your input stream, and judge whether a given element is a part of the prior higher level communication, or not.
+Your task is to identify higher level communications in your input stream, and judge whether a the final element you are given is a part of the prior higher level communication, or not.
 
 Examples of the types of higher level communications we are trying to identify are:
 a command,
@@ -8,83 +8,53 @@ a keyboard shortcut,
 an escape sequence which redraws a menu item,
 a series of backspaces correcting a typo
 
-A higher level communication is represented by of sequences of single elements each preceeded by a sequence number, where a complete higher level communication starts with a '0' on a new line, followed by a single element on the next line, and ends where the next higher level communication starts. When a higher level communication is complete, it will immediately be followed by the '0' and the first entity which is part of the next higher level communication.
+A higher level communication is represented by of sequences of single elements with a sequence number entity, where a complete higher level communication starts with a single element with a sequence number of '0', and ends where the next higher level communication starts. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a sequence number of '0'.
 
-An element inside of a higher level communication can either be <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the communication occurred. Following elements which are part of the same higher level communication are each preceeded by incrementing positive sequence numbers indicating their place in the higher level communication until the higher level communication is complete. 
+An element inside of a higher level communication can either be <user_input> (representing user keyboard presses or cut-and-paste buffer pastes) or <system_output> (representing responses from software). Each element includes a timestamp id (in seconds) that indicates how much time has passed between when the session started, and when the communication occurred. Following elements which are part of the same higher level communication are each given incrementing sequence numbers indicating their place in the higher level communication until the higher level communication is complete. 
 
-You are going to be given a series of elements that each represent a communication in a terminal session, each preceeded by sequence numbers followed by a carriage return, indicating which line number within a higher level communication the following element represents. After this list of elements and sequence numbers, you are going to be given a single element, for identification.
+You are going to be given a series of elements that each represent a communication in a terminal session, each with a sequence number, indicating which line number within a higher level communication the element represents. After this list of elements and sequence numbers, you are going to be given a single element without a sequence number, for identification.
 
-Your task is to identify if the last entity you are given in the input set is part of the yet-incomplete higher level communication immediately preceeding it.
+Your task is to identify if the last element you are given in the input set is part of the yet-incomplete higher level communication immediately preceeding it.
 
 You will accomplish your task by responding to the final element presented to you with either the sequence number immediately following the sequence number given to the prior element (indicating it is part of the same higher level communication), or when you believe that the final element is clearly not part of the same higher level communication as the preceeding sequence of elements, then you are to reply with '0', indicating this element should be the start of a new higher level communication.
 
-Your input may start with an incomplete higher level communication, which is to say, it not start with a '0'. When this is the case, you can infer that the first higher level communication you see in the input is not complete, and may not convey enough of the idea behind the higher level communication to assist you with contextualizing later elements.
+Your input may start with an incomplete higher level communication, which is to say, it not start with an entity with a sequence number of '0'. When this is the case, you can infer that the first higher level communication you see in the input is not complete, and may not convey enough of the idea behind the higher level communication to assist you with contextualizing later elements.
 
-Your input will end with two elements without a sequence number between them. One of these is the last entity that is known to be a part of the prior higher level communication, and the second one is the one you will judge.
+Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will judge. The element from the prior higher level communication will have been assigned a sequence number.
 
 For example, the following is a partial sequence of elements from a user being shown a bash prompt, and then a complete higher level communication where the user is typing 'ssh 10.0.7.138', and pressing enter:
 
 ```
-3
-<system_output timestamp="0.096022">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
-0
-<user_input timestamp="9.163614">s</user_input>
-1
-<system_output timestamp="9.164051">s</system_output>
-2
-<user_input timestamp="9.365744">s</user_input>
-3
-<system_output timestamp="9.366263">s</system_output>
-4
-<user_input timestamp="9.589844">h</user_input>
-5
-<system_output timestamp="9.59026">h</system_output>
-6
-<user_input timestamp="9.708352"> </user_input>
-7
-<system_output timestamp="9.708844"> </system_output>
-8
-<user_input timestamp="10.1118">1</user_input>
-9
-<system_output timestamp="10.112236">1</system_output>
-10
-<user_input timestamp="10.270878">0</user_input>
-11
-<system_output timestamp="10.271223">0</system_output>
-12
-<user_input timestamp="10.471565">.</user_input>
-13
-<system_output timestamp="10.471898">.</system_output>
-14
-<user_input timestamp="10.594981">0</user_input>
-15
-<system_output timestamp="10.595383">0</system_output>
-16
-<user_input timestamp="10.757499">.</user_input>
-17
-<system_output timestamp="10.757882">.</system_output>
-18
-<user_input timestamp="11.140897">7</user_input>
-19
-<system_output timestamp="11.14119">7</system_output>
-20
-<user_input timestamp="11.603706">.</user_input>
-21
-<system_output timestamp="11.604019">.</system_output>
-22
-<user_input timestamp="12.330584">1</user_input>
-23
-<system_output timestamp="12.331455">1</system_output>
-24
-<user_input timestamp="12.632256">3</user_input>
-25
-<system_output timestamp="12.633323">3</system_output>
-26
-<user_input timestamp="13.446626">8</user_input>
-27
-<system_output timestamp="13.447562">8</system_output>
-28
-<user_input timestamp="14.510021">\n</user_input>
+<system_output timestamp="0.096022" sequence_number=3>[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
+<user_input timestamp="9.163614" sequence_number="0">s</user_input>
+<system_output timestamp="9.164051" sequence_number="1">s</system_output>
+<user_input timestamp="9.365744" sequence_number="2">s</user_input>
+<system_output timestamp="9.366263" sequence_number="3">s</system_output>
+<user_input timestamp="9.589844" sequence_number="4">h</user_input>
+<system_output timestamp="9.59026" sequence_number="5">h</system_output>
+<user_input timestamp="9.708352" sequence_number="6"> </user_input>
+<system_output timestamp="9.708844" sequence_number="7"> </system_output>
+<user_input timestamp="10.1118" sequence_number="8">1</user_input>
+<system_output timestamp="10.112236" sequence_number="9">1</system_output>
+<user_input timestamp="10.270878" sequence_number="10">0</user_input>
+<system_output timestamp="10.271223" sequence_number="11">0</system_output>
+<user_input timestamp="10.471565" sequence_number="12">.</user_input>
+<system_output timestamp="10.471898" sequence_number="13">.</system_output>
+<user_input timestamp="10.594981" sequence_number="14">0</user_input>
+<system_output timestamp="10.595383" sequence_number="15">0</system_output>
+<user_input timestamp="10.757499" sequence_number="16">.</user_input>
+<system_output timestamp="10.757882" sequence_number="17">.</system_output>
+<user_input timestamp="11.140897" sequence_number="18">7</user_input>
+<system_output timestamp="11.14119" sequence_number="19">7</system_output>
+<user_input timestamp="11.603706" sequence_number="20">.</user_input>
+<system_output timestamp="11.604019" sequence_number="21">.</system_output>
+<user_input timestamp="12.330584" sequence_number="22">1</user_input>
+<system_output timestamp="12.331455" sequence_number="23">1</system_output>
+<user_input timestamp="12.632256" sequence_number="24">3</user_input>
+<system_output timestamp="12.633323" sequence_number="25">3</system_output>
+<user_input timestamp="13.446626" sequence_number="26">8</user_input>
+<system_output timestamp="13.447562" sequence_number="27">8</system_output>
+<user_input timestamp="14.510021" sequence_number="28">\n</user_input>
 <system_output timestamp="14.447562">[?2004h]0;Password:</system_output>
 ```
 
