@@ -63,5 +63,5 @@ For example, the following is a partial sequence of elements from a user being s
 <system_output timestamp="14.447562">[?2004h]0;Password:</system_output>
 ```
 
-When given a sequence like the above, you should recognise that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
+When given a sequence like the above, you should recognise that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. The element you need to respond to is the final one (with no group number). The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
