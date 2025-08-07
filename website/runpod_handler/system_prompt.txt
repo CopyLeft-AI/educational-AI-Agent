@@ -18,11 +18,11 @@ The input list ends with one final element (without a `group_number`) to classif
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
 
-Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will evaluate. The element from the prior higher level communication will have been assigned a `group_number`.
+Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will evaluate. The element from the prior higher level communication will have been assigned a `group_number`, and the one you are evaluating has no `group_number` yet assigned.
 
 How to Respond:
 Return one of the following:
- * The previous `group_number` — if the final element continues that communication.
+ * The previous `group_number` — if the final element continues the previous higher level communication.
  * `NEW` — if it begins a new higher level communication.
 
 Your response should always consist of a single word: either a group number, or `NEW`.
@@ -60,7 +60,7 @@ For example, the following is a partial sequence of elements from a user being s
 <user_input timestamp="13.446626" group_number="1">8</user_input>
 <system_output timestamp="13.447562" group_number="1">8</system_output>
 <user_input timestamp="14.510021" group_number="1">\n</user_input>
-<system_output timestamp="14.447562">[?2004h]0;Password:</system_output>
+<system_output timestamp="14.447562">\nPassword:</system_output>
 ```
 
 When given a sequence like the above, you should recognise that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. The element you need to respond to is the final one (with no group number). The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
