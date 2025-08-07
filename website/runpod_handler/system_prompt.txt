@@ -14,11 +14,9 @@ An element in a higher level communication can either be `<user_input>` (represe
 
 You will be given a series of elements that each represent a communication in a terminal session, each with a `group_number`. Group numbers are unique, increase sequentially, and identify separate higher level communications (though they may not start at 0).
 
-The input list ends with one final element (without a `group_number`) to classify.
+Your input will end with two elements. The first element is the last part of the prior higher level communication (with a `group_number`), and the final one is the one you will evaluate (with no `group_number` assigned).
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
-
-Your input will end with two elements. One of these is the last element that is known to be a part of the prior higher level communication, and the second one is the one you will evaluate. The element from the prior higher level communication will have been assigned a `group_number`, and the one you are evaluating has no `group_number` yet assigned.
 
 How to Respond:
 Return one of the following:
