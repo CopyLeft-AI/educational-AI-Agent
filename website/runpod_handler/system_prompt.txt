@@ -8,13 +8,13 @@ Examples include:
  * An escape sequence that redraws a menu item
  * A series of backspaces correcting a typo
 
-A higher level communication is a series of related elements, representing one of the above items. In the input set, a higher level communication begins when a new `group_number` appears, and ends when a higher `group_number` follows. When a higher level communication is complete, it will immediately be followed by the first element which is part of the next higher level communication, with a `group_number` one higher than the previous. The final higher level communication in the input stream may or may not be complete.
+A higher level communication is a series of related elements, representing one of the above items or other related sequences of elements.
 
-An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group_number`.
+You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group_number`.
 
-You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group_number`. Group numbers are unique, increase sequentially, and identify separate higher level communications (though they may not start at 0).
+In the input set, a higher level communication begins when a new `group_number` appears, and ends when a higher `group_number` follows. Group numbers are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group_number`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group_number`.
 
-Your input will end with two elements. The first element is the last part of the prior higher level communication (with a `group_number`), and the final one is the one you will evaluate (with no `group_number` assigned).
+Your input set ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group_number`), and the latter element is the one you will evaluate (with no `group_number` assigned).
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
 
@@ -25,8 +25,7 @@ Return one of the following:
 
 Your response should always consist of a single word: either a group number, or `NEW`.
 
-For example, the following is a partial sequence of elements from a user being shown a bash prompt, and then a complete higher level communication where the user is typing `ssh 10.0.7.138`, and pressing enter:
-
+For example:
 ```
 <system_output timestamp="0.096022" group_number="0">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
 <user_input timestamp="9.163614" group_number="1">s</user_input>
@@ -61,7 +60,7 @@ For example, the following is a partial sequence of elements from a user being s
 <system_output timestamp="14.447562">\nPassword:</system_output>
 ```
 
-When given a sequence like the above, you should recognise that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. The element you need to respond to is the final one (with no group number). The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
+When given a sequence like the above, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. You must respond to the final element. The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
 Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group_number` for the last element, an examination of group numbers alone will not succeed at completing this task.
 
