@@ -56,11 +56,12 @@ For example:
 <system_output timestamp="12.633323" group="1">3</system_output>
 <user_input timestamp="13.446626" group="1">8</user_input>
 <system_output timestamp="13.447562" group="1">8</system_output>
-<user_input timestamp="14.510021" group="1">\n</user_input>
-<system_output timestamp="14.447562">\nPassword:</system_output>
+<user_input timestamp="13.448001" group="1">\n</user_input>
+<system_output timestamp="13.449123" group="1">\n</system_output>
+<system_output timestamp="13.451242">Password:</system_output>
 ```
 
-When given a sequence like the above, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. You must respond to the final element. The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
+When given a sequence like the above, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `13.449123` completes it. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since it's content starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
 Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group` for the last element, an examination of group IDs alone will not succeed at completing this task.
 
