@@ -39,7 +39,7 @@ def format_prompt_with_system(prompt, system_prompt=SYSTEM_PROMPT):
     """Format user prompt with system prompt using official DeepSeek R1 format"""
     
     # Use the official DeepSeek R1 format
-    formatted_prompt = f"""<|begin_of_sentence|><|User|>{system_prompt}<data>{prompt}</data><|Assistant|><think>
+    formatted_prompt=f"""<｜begin_of_sentence｜><｜User｜>{system_prompt}<data>{prompt}</data><｜Assistant｜><think>
 """
     print(f"Using official DeepSeek R1 format")
     return formatted_prompt
