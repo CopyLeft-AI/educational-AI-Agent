@@ -29,10 +29,8 @@ Your task is to determine whether the final ungrouped event belongs to the same 
 
 ## How to Respond:
 Output exactly two lines:
- * A single line of english less than 200 characters in length rationalizing your choice
- * A line beginning with `**Answer:**`, with one of the following:
-    * The integer `group` of the previous event — If the final event belongs to the same HLC as the event before it.
-    * `NEW` — If it begins a new HLC.
+ * A line in English less than 200 characters in length rationalizing your choice.
+ * A line beginning with `**Answer:**`, followed by either the integer `group` of the previous event, or`NEW`
 
 # Worked Examples:
 
