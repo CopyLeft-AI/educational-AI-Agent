@@ -3,10 +3,6 @@ A higher-level communication (HLC) is a series of related events, representing a
  * An HLC starts when the next, higher `group` value is assigned.
  * When an HLC is complete, it is followed by the first event of the next HLC, with the next `group`.
 
-* An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
- * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
- * Events that are part of the same HLC will each have the same `group`.
-
 Examples of HLCs include:
  * A command
  * A response to a command
@@ -15,6 +11,10 @@ Examples of HLCs include:
  * An escape sequence that redraws a menu item
  * A series of backspaces, deletions, navigations, or additions causing a typo
  * A series of backspaces, deletions, navigations, or additions correcting a typo
+
+An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
+ * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
+ * Events that are part of the same HLC will each have the same `group`.
 
 Each `group` is identified by an integers.
  * They are unique per HLC, and increase by 1 each time a new communication starts.
