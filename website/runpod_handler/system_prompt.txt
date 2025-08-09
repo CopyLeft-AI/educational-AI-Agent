@@ -1,4 +1,4 @@
-Your task is to identify higher level communications in the following user section, and determine whether the final element you are given is a part of the prior higher level communication, or begins a new one.
+Your task is to identify higher level communications in the following `User` section, and determine whether the final element you are given is a part of the prior higher level communication, or begins a new one.
 
 Examples include:
  * A command
@@ -10,11 +10,11 @@ Examples include:
 
 A higher level communication is a series of related elements, representing one of the above items or other related sequences of elements.
 
-In the User section, you will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group`.
+In the `User` section, you will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group`.
 
 A higher level communication begins when a new group ID (in a `group` entity) appears, and ends when a higher `group` follows. Group IDs are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group`.
 
-The user section ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
+The `User` section ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
 
@@ -66,4 +66,4 @@ Your answer should be one of the following:
 
 Your answer should always consist of a single word: either a group ID, or `NEW`.
 
-The user section follows:
+The `User` section follows:
