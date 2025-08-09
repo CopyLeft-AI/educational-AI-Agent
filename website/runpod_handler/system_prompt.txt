@@ -10,57 +10,57 @@ Examples include:
 
 A higher level communication is a series of related elements, representing one of the above items or other related sequences of elements.
 
-You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group_number`.
+You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group`.
 
-In the input set, a higher level communication begins when a new `group_number` appears, and ends when a higher `group_number` follows. Group numbers are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group_number`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group_number`.
+In the input set, a higher level communication begins when a new `group` appears, and ends when a higher `group` follows. Group numbers are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group`.
 
-Your input set ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group_number`), and the latter element is the one you will evaluate (with no `group_number` assigned).
+Your input set ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
 
 How to Respond:
 Return one of the following:
- * The previous `group_number` — if the final element continues the previous higher level communication.
+ * The previous `group` — if the final element continues the previous higher level communication.
  * `NEW` — if it begins a new higher level communication.
 
 Your response should always consist of a single word: either a group number, or `NEW`.
 
 For example:
 ```
-<system_output timestamp="0.096022" group_number="0">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
-<user_input timestamp="9.163614" group_number="1">s</user_input>
-<system_output timestamp="9.164051" group_number="1">s</system_output>
-<user_input timestamp="9.365744" group_number="1">s</user_input>
-<system_output timestamp="9.366263" group_number="1">s</system_output>
-<user_input timestamp="9.589844" group_number="1">h</user_input>
-<system_output timestamp="9.59026" group_number="1">h</system_output>
-<user_input timestamp="9.708352" group_number="1"> </user_input>
-<system_output timestamp="9.708844" group_number="1"> </system_output>
-<user_input timestamp="10.1118" group_number="1">1</user_input>
-<system_output timestamp="10.112236" group_number="1">1</system_output>
-<user_input timestamp="10.270878" group_number="1">0</user_input>
-<system_output timestamp="10.271223" group_number="1">0</system_output>
-<user_input timestamp="10.471565" group_number="1">.</user_input>
-<system_output timestamp="10.471898" group_number="1">.</system_output>
-<user_input timestamp="10.594981" group_number="1">0</user_input>
-<system_output timestamp="10.595383" group_number="1">0</system_output>
-<user_input timestamp="10.757499" group_number="1">.</user_input>
-<system_output timestamp="10.757882" group_number="1">.</system_output>
-<user_input timestamp="11.140897" group_number="1">7</user_input>
-<system_output timestamp="11.14119" group_number="1">7</system_output>
-<user_input timestamp="11.603706" group_number="1">.</user_input>
-<system_output timestamp="11.604019" group_number="1">.</system_output>
-<user_input timestamp="12.330584" group_number="1">1</user_input>
-<system_output timestamp="12.331455" group_number="1">1</system_output>
-<user_input timestamp="12.632256" group_number="1">3</user_input>
-<system_output timestamp="12.633323" group_number="1">3</system_output>
-<user_input timestamp="13.446626" group_number="1">8</user_input>
-<system_output timestamp="13.447562" group_number="1">8</system_output>
-<user_input timestamp="14.510021" group_number="1">\n</user_input>
+<system_output timestamp="0.096022" group="0">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
+<user_input timestamp="9.163614" group="1">s</user_input>
+<system_output timestamp="9.164051" group="1">s</system_output>
+<user_input timestamp="9.365744" group="1">s</user_input>
+<system_output timestamp="9.366263" group="1">s</system_output>
+<user_input timestamp="9.589844" group="1">h</user_input>
+<system_output timestamp="9.59026" group="1">h</system_output>
+<user_input timestamp="9.708352" group="1"> </user_input>
+<system_output timestamp="9.708844" group="1"> </system_output>
+<user_input timestamp="10.1118" group="1">1</user_input>
+<system_output timestamp="10.112236" group="1">1</system_output>
+<user_input timestamp="10.270878" group="1">0</user_input>
+<system_output timestamp="10.271223" group="1">0</system_output>
+<user_input timestamp="10.471565" group="1">.</user_input>
+<system_output timestamp="10.471898" group="1">.</system_output>
+<user_input timestamp="10.594981" group="1">0</user_input>
+<system_output timestamp="10.595383" group="1">0</system_output>
+<user_input timestamp="10.757499" group="1">.</user_input>
+<system_output timestamp="10.757882" group="1">.</system_output>
+<user_input timestamp="11.140897" group="1">7</user_input>
+<system_output timestamp="11.14119" group="1">7</system_output>
+<user_input timestamp="11.603706" group="1">.</user_input>
+<system_output timestamp="11.604019" group="1">.</system_output>
+<user_input timestamp="12.330584" group="1">1</user_input>
+<system_output timestamp="12.331455" group="1">1</system_output>
+<user_input timestamp="12.632256" group="1">3</user_input>
+<system_output timestamp="12.633323" group="1">3</system_output>
+<user_input timestamp="13.446626" group="1">8</user_input>
+<system_output timestamp="13.447562" group="1">8</system_output>
+<user_input timestamp="14.510021" group="1">\n</user_input>
 <system_output timestamp="14.447562">\nPassword:</system_output>
 ```
 
 When given a sequence like the above, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. You must respond to the final element. The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
-Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group_number` for the last element, an examination of group numbers alone will not succeed at completing this task.
+Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group` for the last element, an examination of group numbers alone will not succeed at completing this task.
 
