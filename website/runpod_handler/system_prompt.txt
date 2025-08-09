@@ -1,6 +1,6 @@
-Your task is to identify higher-level communications in the following `User` section, and determine whether the final element you are given is a part of the prior higher-level communication, or begins a new one.
+Your task is to identify higher-level communications(or HLCs) in the following `User` section, and determine whether the final element you are given is a part of the prior HLC, or begins a new one.
 
-Examples of higher-level communications include:
+Examples of HLCs include:
  * A command
  * A response to a command
  * A system message
@@ -8,9 +8,9 @@ Examples of higher-level communications include:
  * An escape sequence that redraws a menu item
  * A series of backspaces correcting a typo
 
-A higher-level communication is a series of related elements, representing one of the above items or other related sequences of elements.
+A HLC is a series of related elements, representing one of the above items or other related sequences of elements.
 
-In the `User` section, you will be given a series of elements in chronological order that each represent a communication in a terminal session, all but the last with a `group`. `Example 1` shows a complete series of elements, ready to be processed.
+In the `User` section, you will be given a series of terminal session events, in chronological order, with all but the last having an assigned `group`. `Example 1` shows a complete series of elements, ready to be processed.
 
 Example 1:
 ```xml
@@ -48,11 +48,7 @@ Example 1:
 <system_output timestamp="13.449123">\n</system_output>
 ```
 
-A higher-level communication starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate higher-level communications. An element in a higher-level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements that are part of the same higher-level communication will each have the same `group`. When a higher-level communication is complete, it is followed by the first element of the next higher-level communication, with the next `group`.
-
-The `User` section ends with two elements. The former of the two is the last part of the prior higher-level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
-
-Your task is to determine whether the final ungrouped element belongs to the same higher-level communication as the one before it, or starts a new one. The final higher-level communication in the `User` section may or may not be complete; determining this may be required to complete your task.
+A HLC starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate HLCs. An element in a HLC can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements that are part of the same HLC will each have the same `group`. When a HLC is complete, it is followed by the first element of the next HLC, with the next `group`.
 
 Example 2:
 ```xml
@@ -91,16 +87,24 @@ Example 2:
 <system_output timestamp="13.451242">Password:</system_output>
 ```
 
-When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the carriage return at timestamp `13.448001` is the user hitting carriage return, telling the system to execute their command. Knowing this, you can infer that correct response to the final element (in this case, a `system_output` of a carriage return) is `1`, since its the system echo of the user's carriage return.
+The `User` section ends with two elements. The former of the two is the last part of the prior HLC (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
 
-When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `13.449123` is the system echoing back the user's carriage return. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since its content starts a new higher-level communication (likely, a password prompt), separate from the SSH command.
-
-Note carefully that to solve both of our examples, we had to reason from the content in the elements and their groupings to reach this conclusion; as the last element has no `group`, an examination of group values alone will not succeed at completing this task. The task is solvable by following an algorithm, but not one that can be written in a programming language.
+Your task is to determine whether the final ungrouped element belongs to the same HLC as the one before it, or starts a new one. The final HLC in the `User` section may or may not be complete; determining this may be required to complete your task.
 
 How to Respond:
 Respond first with a single line of English text, explaining why you came to the answer you did, followed by a line beginning with `**Answer:**`, with your one-word answer on it.
+ * If the final ungrouped event is an echo of prior user input, it is probably the same HLC.
+ * if it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it is likely the beginning of a new HLC.
 After `**Answer:**`, your output should only be one of the following:
- * The previous `group` — if the final element continues the previous higher-level communication.
- * `NEW` — if it begins a new higher-level communication.
+ * The previous `group` — if the final element continues the previous HLC.
+ * `NEW` — if it begins a new HLC.
+
+Worked Examples:
+ * When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the newline at timestamp `13.448001` is the user hitting Enter, telling the system to execute their command. Knowing this, you can infer that correct response to the final element (in this case, a `system_output` of a newline) is `1`, since it's the system echo of the user's newline.
+ * When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the newline at timestamp `13.449123` is the system echoing back the user's newline. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since its content starts a new HLC (likely, a password prompt), separate from the SSH command.
+
+Note carefully that to solve both of our examples, we had to reason from the content in the elements and their groupings to reach this conclusion; as the last element has no `group`, an examination of group values alone will not succeed at completing this task.
+
+Do not rely only on group values; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
 
 The `User` section follows:
