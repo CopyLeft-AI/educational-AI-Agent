@@ -12,7 +12,7 @@ A higher level communication is a series of related elements, representing one o
 
 You will be given a series of elements that each represent a communication in a terminal session, all but the last with a `group`.
 
-In the input set, a higher level communication begins when a new `group` appears, and ends when a higher `group` follows. Group numbers are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group`.
+In the input set, a higher level communication begins when a new group ID (in a `group` entity) appears, and ends when a higher `group` follows. Group IDs are unique, increase sequentially, and are used to differentiate between separate higher level communications. An element in a higher level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher level communication will each have the same `group`. When a higher level communication is complete, it is followed by the first element of the next higher level communication, with the next `group`.
 
 Your input set ends with two elements. The former of the two is the last part of the prior higher level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
 
@@ -23,7 +23,7 @@ Return one of the following:
  * The previous `group` — if the final element continues the previous higher level communication.
  * `NEW` — if it begins a new higher level communication.
 
-Your response should always consist of a single word: either a group number, or `NEW`.
+Your response should always consist of a single word: either a group ID, or `NEW`.
 
 For example:
 ```
@@ -62,5 +62,5 @@ For example:
 
 When given a sequence like the above, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `14.510021` completes it. You must respond to the final element. The correct response is `NEW`, since the final element starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
-Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group` for the last element, an examination of group numbers alone will not succeed at completing this task.
+Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as there is no `group` for the last element, an examination of group IDs alone will not succeed at completing this task.
 
