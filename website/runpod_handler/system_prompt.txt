@@ -59,10 +59,11 @@ Example 1:
 Note carefully that to solve example 1, we had to reason from the content in the elements and their groupings to reach this conclusion; as the last element has no `group`, an examination of group IDs alone will not succeed at completing this task. The task is solveable by following an algorithm, but not one that can be written in a programming language.
 
 How to Respond:
-Return one of the following:
+Respond with a single line of english text, explaining why you came to the answer you did, followed by a line beginning with "**Answer:**", with your answer on it.
+Your answer should be one of the following:
  * The previous `group` — if the final element continues the previous higher level communication.
  * `NEW` — if it begins a new higher level communication.
 
-Your response should always consist of a single word: either a group ID, or `NEW`.
+Your answer should always consist of a single word: either a group ID, or `NEW`.
 
 The user section follows:
