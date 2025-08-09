@@ -28,12 +28,11 @@ At the end of the data to be evaluated will be two events. The former of the two
 Your task is to determine whether the final ungrouped event belongs to the same HLC as the one before it, or starts a new one.
 
 ## How to Respond:
-Respond first with a single line of English text, explaining why you came to the answer you did, followed by a line beginning with `**Answer:**`, with your one-word answer on it.
- * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
- * If it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC..
-Ensure your one-word answer is one of the following:
- * Output the integer `group` of the previous event — If the final event belongs to the same HLC as the event before it.
- * `NEW` — If it begins a new HLC.
+Output exactly two lines:
+ * A single line of english less than 200 characters in length rationalizing your choice
+ * A line beginning with `**Answer:**`, with one of the following:
+    * The integer `group` of the previous event — If the final event belongs to the same HLC as the event before it.
+    * `NEW` — If it begins a new HLC.
 
 # Worked Examples:
 
@@ -114,7 +113,9 @@ Example 2:
  * When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the newline at timestamp `13.449123` is the system echoing back the user's newline. Knowing this, you can infer that correct response to the final event (in this case, a `system_output`) is `NEW`, since its content starts a new HLC (likely, a password prompt), separate from the SSH command.
 
 # Notes:
-Note carefully that to solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
+To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
 Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
+If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
+If the final ungrouped event presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC.
 
 # Data to be evaluated:
