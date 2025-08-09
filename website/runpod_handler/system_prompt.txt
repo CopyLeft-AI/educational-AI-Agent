@@ -21,7 +21,7 @@ Your task is to determine whether the final ungrouped event belongs to the same 
 Respond first with a single line of English text, explaining why you came to the answer you did, followed by a line beginning with `**Answer:**`, with your one-word answer on it.
  * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
  * If it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC..
-After `**Answer:**`, your output should only be one of the following:
+Ensure your one-word answer is one of the following:
  * The `group` of the final HLC — If the final event belongs to the same HLC as the event before it.
  * `NEW` — If it begins a new `HLC`.
 
