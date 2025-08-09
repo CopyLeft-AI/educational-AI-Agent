@@ -1,6 +1,7 @@
 # Definitions
 A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or datum.
  * An HLC starts when the next, higher `group` value is assigned.
+ * The final HLC in the data to be evaluated may or may not be complete; determining this may be required to complete your task.
  * When an HLC is complete, it is followed by the first event of the next HLC, with the next `group`.
 
 Examples of HLCs include:
@@ -16,8 +17,8 @@ An event can either be `<user_input>` (representing user keyboard presses or cut
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events that are part of the same HLC will each have the same `group`.
 
-Each `group` is represented by an integer.
- * They are used to identify an HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
+Each `group` is identified by an integer.
+ * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
  * They can be used to identify events belonging to an HLC.
 
 # Instructions:
@@ -31,7 +32,7 @@ Respond first with a single line of English text, explaining why you came to the
  * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
  * If it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC..
 Ensure your one-word answer is one of the following:
- * The `group` of the final HLC — If the final event belongs to the same HLC as the event before it.
+ * Output the integer `group` of the previous event — If the final event belongs to the same HLC as the event before it.
  * `NEW` — If it begins a new HLC.
 
 # Worked Examples:
@@ -114,7 +115,6 @@ Example 2:
 
 # Notes:
 Note carefully that to solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
-The final HLC in the data to be evaluated may or may not be complete; determining this may be required to complete your task.
 Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
 
 # Data to be evaluated:
