@@ -167,7 +167,7 @@ def handler(job):
     job_input = job.get("input", {})
     prompt = job_input.get("prompt", "")
     max_new_tokens = job_input.get("max_new_tokens", 128000)
-    temperature = job_input.get("temperature", 0.7)
+    temperature = job_input.get("temperature", 0.6)
     do_sample = job_input.get("do_sample", True)
     
     # Optional: Allow custom system prompt per request
