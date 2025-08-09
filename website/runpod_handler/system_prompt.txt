@@ -48,11 +48,11 @@ Example 1:
 <system_output timestamp="13.449123">\n</system_output>
 ```
 
-A higher-level communication starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate higher-level communications. An element in a higher-level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher-level communication will each have the same `group`. When a higher-level communication is complete, it is followed by the first element of the next higher-level communication, with the next `group`. 
+A higher-level communication starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate higher-level communications. An element in a higher-level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements that are part of the same higher-level communication will each have the same `group`. When a higher-level communication is complete, it is followed by the first element of the next higher-level communication, with the next `group`.
 
 The `User` section ends with two elements. The former of the two is the last part of the prior higher-level communication (with a `group`), and the latter element is the one you will evaluate (with no `group` assigned).
 
-Your task is to determine whether the final ungrouped element belongs to the same higher-level communication as the one before it, or starts a new one. The final higher-level communication in the `User` section may, or may not be complete, determining that is part of completing your task. 
+Your task is to determine whether the final ungrouped element belongs to the same higher-level communication as the one before it, or starts a new one. The final higher-level communication in the `User` section may or may not be complete; determining this may be required to complete your task.
 
 Example 2:
 ```xml
@@ -91,7 +91,7 @@ Example 2:
 <system_output timestamp="13.451242">Password:</system_output>
 ```
 
-When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the carriage return at timestamp `13.448001` is the user hitting carriage return, telling the system to execute their command. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `1`, since its content is simply the remote system echoing back of the user's carriage return.
+When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the carriage return at timestamp `13.448001` is the user hitting carriage return, telling the system to execute their command. Knowing this, you can infer that correct response to the final element (in this case, a `system_output` of a carriage return) is `1`, since its the system echo of the user's carriage return.
 
 When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `13.449123` is the system echoing back the user's carriage return. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since its content starts a new higher-level communication (likely, a password prompt), separate from the SSH command.
 
