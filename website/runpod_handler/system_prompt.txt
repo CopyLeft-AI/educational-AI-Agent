@@ -18,16 +18,9 @@ The user section ends with two elements. The former of the two is the last part 
 
 Your task is to determine whether the final element belongs to the same higher level communication as the one before it, or starts a new one.
 
-How to Respond:
-Return one of the following:
- * The previous `group` — if the final element continues the previous higher level communication.
- * `NEW` — if it begins a new higher level communication.
+When given a sequence like example 1, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `13.449123` completes it. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since it's content starts a new higher level communication (likely, a password prompt), separate from the SSH command.
 
-Your response should always consist of a single word: either a group ID, or `NEW`.
-
-Example:
-When given a sequence like the following, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the carriage return at timestamp `13.449123` completes it. Knowing this, you can infer that correct response to the final element (in this case, a `system_output`) is `NEW`, since it's content starts a new higher level communication (likely, a password prompt), separate from the SSH command.
-
+Example 1:
 ```
 <system_output timestamp="0.096022" group="0">[?2004h]0;demo@boxtop: ~demo@boxtop:~$ </system_output>
 <user_input timestamp="9.163614" group="1">s</user_input>
@@ -63,6 +56,13 @@ When given a sequence like the following, you should recognize that `ssh` likely
 <system_output timestamp="13.451242">Password:</system_output>
 ```
 
-Note carefully that to solve the example, we had to reason from the content in the elements and their groupings to reach this conclusion; as the last element has no `group`, an examination of group IDs alone will not succeed at completing this task. The task is solveable by following an algorithm, but not one that can be written in a programming language.
+Note carefully that to solve example 1, we had to reason from the content in the elements and their groupings to reach this conclusion; as the last element has no `group`, an examination of group IDs alone will not succeed at completing this task. The task is solveable by following an algorithm, but not one that can be written in a programming language.
+
+How to Respond:
+Return one of the following:
+ * The previous `group` — if the final element continues the previous higher level communication.
+ * `NEW` — if it begins a new higher level communication.
+
+Your response should always consist of a single word: either a group ID, or `NEW`.
 
 The user section follows:
