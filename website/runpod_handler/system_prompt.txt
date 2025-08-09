@@ -1,4 +1,7 @@
-Your task is to identify higher-level communications (HLCs), and determine whether the final element you are given is a part of the prior `HLC`, or begins a new one.
+# Definitions
+An `HLC` is a series of related events, representing one of the above items or other related sequences of events.
+
+An `HLC` starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate `HLC`s. An event in an `HLC` can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each event includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Events that are part of the same `HLC` will each have the same `group`. When an `HLC` is complete, it is followed by the first event of the next `HLC`, with the next `group`.
 
 Examples of `HLC`s include:
  * A command
@@ -8,9 +11,21 @@ Examples of `HLC`s include:
  * An escape sequence that redraws a menu item
  * A series of backspaces correcting a typo
 
-An `HLC` is a series of related events, representing one of the above items or other related sequences of events.
+# Instructions:
+Your task is to identify higher-level communications (HLCs), and determine whether the final element you are given is a part of the prior `HLC`, or begins a new one.
+After these instructions, some examples, and some notes , you will be given data to be evaluated which will contain a series of terminal session events, in chronological order, with all but the last event having an assigned `group`.
+At the end of the data to be evaluated will be two events. The former of the two is the last part of the prior `HLC` (with a `group`), and the latter event is the one you will evaluate (with no `group` assigned).
+Your task is to determine whether the final ungrouped event belongs to the same `HLC` as the one before it, or starts a new one.
 
-After these instructions and examples, you will be given data to be evaluated which will contain a series of terminal session events, in chronological order, with all but the last having an assigned `group`. `Example 1` shows a complete series of events, ready to be processed.
+## How to Respond:
+Respond first with a single line of English text, explaining why you came to the answer you did, followed by a line beginning with `**Answer:**`, with your one-word answer on it.
+ * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
+ * If it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC..
+After `**Answer:**`, your output should only be one of the following:
+ * The `group` of the final HLC — If the final event belongs to the same HLC as the event before it.
+ * `NEW` — If it begins a new `HLC`.
+
+# Worked Examples:
 
 Example 1:
 ```xml
@@ -47,8 +62,6 @@ Example 1:
 <user_input timestamp="13.448001" group="1">\n</user_input>
 <system_output timestamp="13.449123">\n</system_output>
 ```
-
-An `HLC` starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate `HLC`s. An event in an `HLC` can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each event includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Events that are part of the same `HLC` will each have the same `group`. When an `HLC` is complete, it is followed by the first event of the next `HLC`, with the next `group`.
 
 Example 2:
 ```xml
@@ -87,25 +100,12 @@ Example 2:
 <system_output timestamp="13.451242">Password:</system_output>
 ```
 
-At the end of the data to be evaluated will be two events. The former of the two is the last part of the prior `HLC` (with a `group`), and the latter event is the one you will evaluate (with no `group` assigned).
-
-Your task is to determine whether the final ungrouped event belongs to the same `HLC` as the one before it, or starts a new one.
-
-How to Respond:
-Respond first with a single line of English text, explaining why you came to the answer you did, followed by a line beginning with `**Answer:**`, with your one-word answer on it.
- * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
- * If it presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC..
-After `**Answer:**`, your output should only be one of the following:
- * The `group` of the final HLC — If the final event belongs to the same HLC as the event before it.
- * `NEW` — If it begins a new `HLC`.
-
-Worked Examples:
  * When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the newline at timestamp `13.448001` is the user hitting Enter, telling the system to execute their command. Knowing this, you can infer that correct response to the final event (in this case, a `system_output` of a newline) is `1`, since it's the system echo of the user's newline.
  * When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the newline at timestamp `13.449123` is the system echoing back the user's newline. Knowing this, you can infer that correct response to the final event (in this case, a `system_output`) is `NEW`, since its content starts a new `HLC` (likely, a password prompt), separate from the SSH command.
 
+# Notes:
 Note carefully that to solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
-Note that The final `HLC` in the `User` section may or may not be complete; determining this may be required to complete your task.
-
+The final `HLC` in the data to be evaluated may or may not be complete; determining this may be required to complete your task.
 Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
 
-The Data to be evaluated:
+# Data to be evaluated:
