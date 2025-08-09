@@ -16,9 +16,9 @@ An event can either be `<user_input>` (representing user keyboard presses or cut
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events that are part of the same HLC will each have the same `group`.
 
-Each `group` is identified by an integers.
- * They are unique per HLC, and increase by 1 each time a new communication starts.
- * They are used to differentiate between separate HLCs.
+Each `group` is represented by an integer.
+ * They are used to identify an HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
+ * They can be used to identify events belonging to an HLC.
 
 # Instructions:
 Your task is to recognise HLCs, and determine whether the final event you are given is a part of the prior HLC, or begins a new one.
