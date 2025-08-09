@@ -45,7 +45,7 @@ Example 1:
 <system_output timestamp="13.447562" group="1">8</system_output>
 <!-- Final two elements: The first one has a group, the last is ungrouped, and needs its grouping determined. -->
 <user_input timestamp="13.448001" group="1">\n</user_input>
-<system_output timestamp="13.449123" group="1">\n</system_output>
+<system_output timestamp="13.449123">\n</system_output>
 ```
 
 A higher-level communication starts when the next, higher `group` value is assigned. Group values are integers, unique per communication, and increase by 1 each time a new communication starts. They are used to differentiate between separate higher-level communications. An element in a higher-level communication can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software). Each element includes a `timestamp` (in seconds) that indicates how much time has passed since the session began. Elements which are part of the same higher-level communication will each have the same `group`. When a higher-level communication is complete, it is followed by the first element of the next higher-level communication, with the next `group`. 
