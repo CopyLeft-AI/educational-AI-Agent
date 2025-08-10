@@ -124,12 +124,7 @@ Example 2:
  * When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the newline at timestamp `13.449123` is the system echoing back the user's newline. Knowing this, you can infer that correct response to the final event (in this case, a `system_output`) is `NEW`, since its content starts a new HLC (likely, a password prompt), separate from the SSH command.
 
 # Notes:
- * To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has an empty `group`, an examination of `group`s alone will not succeed at completing this task.
- * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
- * If the final event is an echo of prior user input, it probably belongs to the same group.
- * If the final event presents a new prompt/state (e.g., `Password:`, a fresh shell prompt, or any regular prompt from command driven software), it begins a new HLC.
- * Data to be evaluated is contained within `data` tags, and contains no end marker. The final element within the `data` tags is the element you must classify.
- * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that suppress echo for privacy(like, a `Password:` prompt).
+no notes.
 
 # Data to be evaluated:
 
