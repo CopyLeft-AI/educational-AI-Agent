@@ -15,7 +15,7 @@ Examples of HLCs include:
 
 An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
- * Events that are part of the same HLC will each have the same `group`.
+ * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
 
 Each `group` is identified by an integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
@@ -23,14 +23,14 @@ Each `group` is identified by an integer.
 
 # Instructions:
 Your task is to recognise HLCs, and determine whether the final event you are given is a part of the prior HLC, or begins a new one.
-After these instructions, some examples, and some notes , you will be given data to be evaluated which will contain a series of terminal session events, in chronological order, with all but the last event having an assigned `group`.
+After these instructions, some examples, and some notes, you will be given data to be evaluated which will contain a series of terminal session events, in chronological order, with all but the last event having an assigned `group`.
 At the end of the data to be evaluated will be two events. The former of the two is the last part of the prior HLC (with a `group`), and the latter event is the one you will evaluate (with no `group` assigned).
 Your task is to determine whether the final ungrouped event belongs to the same HLC as the one before it, or starts a new one.
 
 ## How to Respond:
 Output exactly two lines:
  * A line in English less than 200 characters in length rationalizing your choice.
- * A line beginning with `**Answer:**`, followed by either the integer `group` of the previous event, or`NEW`
+ * A line beginning with `Answer: `, followed by either the integer `group` of the previous event, or`NEW`
 
 # Worked Examples:
 
@@ -111,9 +111,10 @@ Example 2:
  * When given a sequence like `Example 2`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, and the newline at timestamp `13.449123` is the system echoing back the user's newline. Knowing this, you can infer that correct response to the final event (in this case, a `system_output`) is `NEW`, since its content starts a new HLC (likely, a password prompt), separate from the SSH command.
 
 # Notes:
-To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
-Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
-If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
-If the final ungrouped event presents a new prompt/state (e.g., `Password:` or a fresh shell prompt), it probably begins a new HLC.
+ * To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no `group`, an examination of `group`s alone will not succeed at completing this task.
+ * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
+ * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
+ * If the final ungrouped event presents a new prompt/state (e.g., `Password:`, a fresh shell prompt, or any regular prompt from command driven software), it begins a new HLC.
+ * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that supress echo for privacy(like, a `Password:` prompt).
 
 # Data to be evaluated:
