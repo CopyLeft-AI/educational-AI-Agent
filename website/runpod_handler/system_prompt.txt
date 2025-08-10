@@ -18,20 +18,20 @@ Examples of HLCs include:
  * A series of backspaces, deletions, navigations, or additions causing a typo
  * A series of backspaces, deletions, navigations, or additions correcting a typo
 
-An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
- * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
+An event captures communication in a text terminal session.
+ * Events can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
+ * All events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events are always provided in chronological order; older events will come before newer events in the data you are evaluating.
- * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
- * The final event may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
+ * Events that are part of the same HLC should each have the same `group`, with the exception of the final (possibly incomplete) HLC.
+ * The final event (with an `X` group identifier) has not yet had a group assigned, and may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
 
 Each `group` is identified by an integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
  * They can be used to identify events belonging to an HLC.
- * Events with a `group` of `X` are not valid, and need to have their group identified.
 
 # Instructions:
-You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the final event having a valid `group`, and all but the final HLC being known to be complete.
-At the end, you will find a final (possibly incomplete) HLC, along with an event with an invalid `group` of `X`, and with the highest timestamp.
+You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the final event having an assigned `group`, and all but the final HLC being known to be complete.
+At the end, you will find a final (possibly incomplete) HLC, along with an event with a `group` of `X`, and with the highest timestamp.
 Your task is to determine whether the final event belongs to the final HLC, or if the event starts a new HLC.
 
 ## How to Respond:
