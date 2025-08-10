@@ -14,7 +14,7 @@ Examples of HLCs include:
  * A response to a command
  * A system message
  * A complete keyboard shortcut
- * An escape sequence that redraws a menu item
+ * An escape sequence that redraws a portion of the screen
  * A series of backspaces, deletions, navigations, or additions causing a typo
  * A series of backspaces, deletions, navigations, or additions correcting a typo
 
@@ -29,8 +29,8 @@ Each `group` is identified by an integer.
  * They can be used to identify events belonging to an HLC.
 
 # Instructions:
-You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the last event having a filled-in `group`, and all but the last HLC being known to be complete.
-At the end of the data to be evaluated you will find a possibly incomplete HLC, along with an event with an empty `group`, and with the highest timestamp.
+You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the last event having a valid `group`, and all but the last HLC being known to be complete.
+At the end of the data to be evaluated you will find a possibly incomplete HLC, along with an event with an invalid `group` of `X`, and with the highest timestamp.
 Your task is to determine whether the final event belongs to the possibly complete HLC as the one before it, or if the HLC is complete, and the event starts a new HLC.
 
 ## How to Respond:
@@ -78,9 +78,9 @@ Example 1:
 <system_output timestamp="12.633323" group="1">3</system_output>
 <user_input timestamp="13.446626" group="1">8</user_input>
 <system_output timestamp="13.447562" group="1">8</system_output>
-<!-- Final two events: The first one has a `group`, but the last has an empty `group`, and needs its grouping determined. -->
+<!-- Final two events: The first one has a `group`, but the last has a `group` of `X`, and needs its grouping determined. -->
 <user_input timestamp="13.448001" group="1">\n</user_input>
-<system_output timestamp="13.449123" group="">\n</system_output>
+<system_output timestamp="13.449123" group="X">\n</system_output>
 ```
 
 Example 2:
@@ -115,9 +115,9 @@ Example 2:
 <user_input timestamp="13.446626" group="1">8</user_input>
 <system_output timestamp="13.447562" group="1">8</system_output>
 <user_input timestamp="13.448001" group="1">\n</user_input>
-<!-- Final two events: The first one has a group, the last has an empty group, and needs its grouping determined. -->
+<!-- Final two events: The first one has a group, the last has a group of X, and needs its grouping determined. -->
 <system_output timestamp="13.449123" group="1">\n</system_output>
-<system_output timestamp="13.451242" group="">Password:</system_output>
+<system_output timestamp="13.451242" group="X">Password:</system_output>
 ```
 
  * When given a sequence like `Example 1`, you should recognize that `ssh` likely began a Linux command targeting `10.0.7.138`, And the newline at timestamp `13.448001` is the user hitting Enter, telling the system to execute their command. Knowing this, you can infer that correct response to the final event (in this case, a `system_output` of a newline) is `1`, since it's the system echo of the user's newline.
@@ -127,4 +127,5 @@ Example 2:
 no notes.
 
 # Data to be evaluated:
+
 
