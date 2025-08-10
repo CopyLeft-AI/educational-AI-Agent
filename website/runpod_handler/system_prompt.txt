@@ -1,5 +1,5 @@
 # Goal
-Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to determine whether the final event you are given is a part of the final HLC, or begins a new one.
+Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to determine whether the final event with an `X` group identifier is a part of the final HLC.
 
 # Definitions
 A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or datum.
@@ -10,7 +10,7 @@ A higher-level communication (HLC) is a series of related events, representing a
  * HLCs may end with either an `user_input` event, or `system_output`.
 
 Examples of HLCs include:
- * A command
+ * A complete command (including newline)
  * A response to a command
  * A system message
  * A complete keyboard shortcut
@@ -22,17 +22,17 @@ An event captures communication in a text terminal session.
  * Events can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * All events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events are always provided in chronological order; older events will come before newer events in the data you are evaluating.
- * Events that are part of the same HLC should each have the same `group`, with the exception of the final HLC, which may be missing events.
- * Events with a `group` of `X` have not had a valid group assigned, and may be a part of the final HLC, may start a new HLC, or may end the final HLC.
+ * Events that are part of the same HLC should each have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
+ * Events with a `group` of `X` have not had a valid group assigned, and may be a part of the final HLC. Check carefully if this is the case.
 
-Each `group` is identified by an integer.
+Each `group` is identified by 0, or a positive integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
  * They can be used to identify events belonging to an HLC.
 
 # Instructions:
 You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the final event having a valid `group`, and all but the final HLC being known to be complete.
 At the end, you will find a final (possibly incomplete) HLC, followed by an event with an invalid `group` of `X`, and with the highest timestamp. This final event (with a `group` of `X`) is the event you must classify.
-Your task is to determine whether the final event is part of the final HLC, or if the event starts a new HLC.
+Your task is to determine whether the final HLC is complete, or if the final event is a part of the final HLC.
 
 ## How to Respond:
 
