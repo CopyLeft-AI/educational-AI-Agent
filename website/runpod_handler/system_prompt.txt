@@ -7,6 +7,7 @@ A higher-level communication (HLC) is a series of related events, representing a
  * Each HLC in the data (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
  * Each HLC in the data (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
  * The final HLC may or may not be complete; determining this may be required to complete your task.
+ * The event before the final event is always a part of the final HLC.
  * HLCs may end with either an `user_input` event, or `system_output`.
 
 Examples of HLCs include:
