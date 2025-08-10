@@ -1,3 +1,6 @@
+# Goal
+Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to determine whether the final event you are given is a part of the final HLC, or begins a new one.
+
 # Definitions
 A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or datum.
  * An HLC starts when the next, higher `group` value is assigned.
@@ -22,7 +25,6 @@ Each `group` is identified by an integer.
  * They can be used to identify events belonging to an HLC.
 
 # Instructions:
-Your task is to recognise HLCs, and determine whether the final event you are given is a part of the prior HLC, or begins a new one.
 After these instructions, some examples, and some notes, you will be given data to be evaluated which will contain a series of terminal session events, in chronological order, with all but the last event having an assigned `group`.
 At the end of the data to be evaluated will be two events. The former of the two is the last part of the prior HLC (with a `group`), and the latter event is the one you will evaluate (with no `group` assigned).
 Your task is to determine whether the final ungrouped event belongs to the same HLC as the one before it, or starts a new one.
@@ -116,6 +118,6 @@ Example 2:
  * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
  * If the final ungrouped event presents a new prompt/state (e.g., `Password:`, a fresh shell prompt, or any regular prompt from command driven software), it begins a new HLC.
  * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that supress echo for privacy(like, a `Password:` prompt).
- * The data to be evaluated is contained within `data` tags, and contains no end markers.
+ * The data to be evaluated is contained within `data` tags, and contains no end marker. The final element within the `data` tags is the element you must classify.
 
 # Data to be evaluated:
