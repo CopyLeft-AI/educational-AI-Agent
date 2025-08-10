@@ -7,7 +7,7 @@ A higher-level communication (HLC) is a series of related events, representing a
  * Each HLC in the data to be evaluated (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
  * Each HLC in the data to be evaluated (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
  * The final HLC in the data to be evaluated may or may not be complete; determining this may be required to complete your task.
- * HLCs may end with either an `user_input` event, or `system_response`.
+ * HLCs may end with either an `user_input` event, or `system_output`.
 
 Examples of HLCs include:
  * A command
@@ -20,7 +20,7 @@ Examples of HLCs include:
 
 An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
- * Events are always provided in chronoligical order; older events will come before newer events in the data to be evaluated.
+ * Events are always provided in chronological order; older events will come before newer events in the data to be evaluated.
  * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
  * The final event in the data to be evaluated may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
 
@@ -36,12 +36,12 @@ Your task is to determine whether the final event belongs to the possibly comple
 ## How to Respond:
 
 Respond with the following two items:
- * An explaination in English less than or equal to 200 characters in length on why you believe the last event is part of the last HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
+ * An explanation in English less than or equal to 200 characters in length on why you believe the last event is part of the last HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
  * An answer, either the integer `group` of the last HLC, or`NEW`
 
 Use the following template to format your response:
 ```
-<explaination here, <= 200 characters>
+<explanation here, <= 200 characters>
 Answer: <HLC_group_integer | NEW>
 ```
 
@@ -129,7 +129,7 @@ Example 2:
  * If the final event is an echo of prior user input, it probably belongs to the same group.
  * If the final event presents a new prompt/state (e.g., `Password:`, a fresh shell prompt, or any regular prompt from command driven software), it begins a new HLC.
  * Data to be evaluated is contained within `data` tags, and contains no end marker. The final element within the `data` tags is the element you must classify.
- * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that supress echo for privacy(like, a `Password:` prompt).
+ * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that suppress echo for privacy(like, a `Password:` prompt).
 
 # Data to be evaluated:
 
