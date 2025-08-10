@@ -18,6 +18,7 @@ Examples of HLCs include:
 
 An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
+ * Events are always provided in chronoligical order; older events will come before newer events in the data to be evaluated.
  * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
 
 Each `group` is identified by an integer.
@@ -38,7 +39,7 @@ Answer: <previous_group_integer | NEW>
 ```
 
 Respond with the following two items:
- * An explaination in English less than 200 characters in length on why you believe the last event is part of the last HLC, or why it is not.
+ * An explaination in English less than or equal to 200 characters in length on why you believe the last event is part of the last HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
  * An answer, either the integer `group` of the previous event, or`NEW`
 
 # Worked Examples:
