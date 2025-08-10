@@ -116,5 +116,6 @@ Example 2:
  * If the final ungrouped event is an echo of prior user input, it probably belongs to the same group.
  * If the final ungrouped event presents a new prompt/state (e.g., `Password:`, a fresh shell prompt, or any regular prompt from command driven software), it begins a new HLC.
  * An HLC may end with a `user_input` event when that input is consumed by the application without being echoed back to the user; switching windows in GNU Screen, for example. Do not confuse this with prompts that supress echo for privacy(like, a `Password:` prompt).
+ * The data to be evaluated is contained within `data` tags, and contains no end markers.
 
 # Data to be evaluated:
