@@ -3,10 +3,10 @@ Your goal is to use a set of higher-level-communications (HLCs) and one final po
 
 # Definitions
 A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or datum.
- * The first HLC starts at the beginning of the data to be evaluated.
- * Each HLC in the data to be evaluated (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
- * Each HLC in the data to be evaluated (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
- * The final HLC in the data to be evaluated may or may not be complete; determining this may be required to complete your task.
+ * The first HLC starts at the beginning of the data you are evaluating.
+ * Each HLC in the data (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
+ * Each HLC in the data (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
+ * The final HLC may or may not be complete; determining this may be required to complete your task.
  * HLCs may end with either an `user_input` event, or `system_output`.
 
 Examples of HLCs include:
@@ -20,29 +20,30 @@ Examples of HLCs include:
 
 An event can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
- * Events are always provided in chronological order; older events will come before newer events in the data to be evaluated.
+ * Events are always provided in chronological order; older events will come before newer events in the data you are evaluating.
  * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
- * The final event in the data to be evaluated may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
+ * The final event may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
 
 Each `group` is identified by an integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
  * They can be used to identify events belonging to an HLC.
+ * Events with a `group` of `X` are not valid, and need to have their group identified.
 
 # Instructions:
-You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the last event having a valid `group`, and all but the last HLC being known to be complete.
-At the end of the data to be evaluated you will find a possibly incomplete HLC, along with an event with an invalid `group` of `X`, and with the highest timestamp.
-Your task is to determine whether the final event belongs to the possibly complete HLC as the one before it, or if the HLC is complete, and the event starts a new HLC.
+You will be given data to be evaluated within a pair of `data` tags which will contain a series of terminal session events, with all but the final event having a valid `group`, and all but the final HLC being known to be complete.
+At the end, you will find a final (possibly incomplete) HLC, along with an event with an invalid `group` of `X`, and with the highest timestamp.
+Your task is to determine whether the final event belongs to the final HLC, or if the event starts a new HLC.
 
 ## How to Respond:
 
 Respond with the following two items:
- * An explanation in English less than or equal to 200 characters in length on why you believe the last event is part of the last HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
- * An answer, either the integer `group` of the last HLC, or`NEW`
+ * An explanation in English less than or equal to 200 characters in length on why you believe the final event is part of the final HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
+ * An answer, either the integer `group` of the final HLC, or`NEW`
 
 Use the following template to format your response:
-```
-<explanation here, <= 200 characters>
-Answer: <HLC_group_integer | NEW>
+```xml
+<explanation/>
+Answer: <answer/>
 ```
 
 # Worked Examples:
@@ -127,5 +128,3 @@ Example 2:
 no notes.
 
 # Data to be evaluated:
-
-
