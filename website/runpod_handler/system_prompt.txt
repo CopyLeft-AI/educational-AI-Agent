@@ -29,7 +29,7 @@ Your task is to determine whether the final ungrouped event belongs to the same 
 
 ## How to Respond:
 Output exactly two lines:
- * A line in English less than 200 characters in length rationalizing your choice.
+ * A line in English less than 200 characters in length on why you believe the last event is part of the last HLC, or why it is not.
  * A line beginning with `Answer: `, followed by either the integer `group` of the previous event, or`NEW`
 
 # Worked Examples:
