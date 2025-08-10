@@ -22,6 +22,7 @@ An event can either be `<user_input>` (representing user keyboard presses or cut
  * Events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events are always provided in chronoligical order; older events will come before newer events in the data to be evaluated.
  * Events that are part of the same HLC will each have the same `group`, with the exception of the final (possibly incomplete) HLC.
+ * The final event in the data to be evaluated may be a part of the prior HLC, may start a new HLC, or may end the prior HLC.
 
 Each `group` is identified by an integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
