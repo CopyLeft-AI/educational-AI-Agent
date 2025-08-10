@@ -35,12 +35,12 @@ Your task is to determine whether the final ungrouped event belongs to the possi
 
 Respond with the following two items:
  * An explaination in English less than or equal to 200 characters in length on why you believe the last event is part of the last HLC, or why it is not. Do not add code blocks, or other multi-line formatting.
- * An answer, either the integer `group` of the previous event, or`NEW`
+ * An answer, either the integer `group` of the last HLC, or`NEW`
 
 Use the following template to format your response:
 ```
 <explaination here, <= 200 characters>
-Answer: <previous_group_integer | NEW>
+Answer: <HLC_group_integer | NEW>
 ```
 
 # Worked Examples:
