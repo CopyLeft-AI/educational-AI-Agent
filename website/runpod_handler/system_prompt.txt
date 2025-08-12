@@ -25,8 +25,7 @@ An event captures communication in a text terminal session.
  * Events that are part of the same HLC will have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
 
 Each `group` is identified by 0, or a positive integer.
- * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
- * They can be used to identify events belonging to an HLC.
+ * They are used to identify a HLC, are unique, contiguous, and increase by 1 in the dataset each time one HLC stops, and another starts.
 
 The last event is the event immediately prior to the dataset's end:
  * The last event has a `sortme` attribute set to `True`.
@@ -35,12 +34,12 @@ The last event is the event immediately prior to the dataset's end:
  * The event before the last event is always a part of the final HLC.
 
 The final HLC is the last HLC in the dataset.
- * The final HLC may or may not be complete; determining this may be required to complete your task.
+ * The final HLC may or may not be complete.
  * The final HLC always contains the event prior to the last event.
- * The last event may or may not be a part of the final HLC; judge carefully!
+ * The last event may or may not be a part of the final HLC.
 
 # Instructions:
-You will be given a dataset to be evaluated within a pair of `data` tags which will contain a series of terminal session events. At the end of the dataset, you can find the final HLC, followed by the last event. Your task is to determine if the final HLC should be considered to be a part of the final HLC.
+You will be given a dataset to be evaluated within a pair of `data` tags which will contain a series of terminal session events. At the end of the dataset, you can find the final HLC, and the last event. Your task is to determine if the last event should be considered to be a part of the final HLC.
 
 ## How to Respond:
 
