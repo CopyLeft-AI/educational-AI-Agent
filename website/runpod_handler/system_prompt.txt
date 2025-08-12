@@ -21,15 +21,16 @@ An event captures communication in a terminal session.
    * `<user_input>` -- user keyboard presses or cut-and-paste buffer pastes.
    * `<system_output>` -- responses from software.
  * All events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
- * Events are always provided in chronological order; older events will come before newer events in the dataset.
- * Events that are part of the same HLC will have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
+ * Events are always provided in non-decreasing timestamp order; ties are in-order in the dataset.
+ * Events that are part of the same HLC will have the same `group`, with the exception of the final HLC, which may need many events added to it to become a complete HLC.
+ * Only the last event will have a `sortme` attribute; there will only be one event with a `sortme` attribute in the dataset.
 
 Each `group` is identified by 0, or a positive integer.
  * They are used to identify a HLC, are unique, contiguous, and increase by 1 in the dataset each time one HLC stops, and another starts.
 
 The last event is the event immediately prior to the dataset's end:
  * The last event has a `sortme` attribute set to `True`.
- * The last event has no group assigned. This implies nothing about it's HLC membership.
+ * The last event has no group assigned. This implies nothing about its HLC membership.
  * The last event has the highest `timestamp` in the dataset.
  * The event before the last event is always a part of the final HLC.
 
@@ -49,17 +50,28 @@ Respond with the following two items:
  * An explanation in English less than or equal to 200 characters in length on why you believe the last event should be considered to be a part of the final HLC, or why it should not.
    * Do not add code blocks, or other multi-line formatting.
    * If you determine the last event should be considered a part of the final HLC, state what type of HLC you believe the final HLC to be, and whether you believe adding this event to the HLC would make it complete.
- * An answer, either the integer `group` of the final HLC, or`NEW`
+ * An answer, either:
+   * The integer `group` of the final HLC -- If you mean to imply that the last event should be joined to the final HLC
+   * `NEW` -- If you mean to imply that an HLC should be assigned to the next integer after the current final HLC's `group`, and you mean to imply the last event should be in that new `group`
 
 Use the following template to format your response:
-```xml
-<explanation><!-- 200 or less characters in English here --></explanation>
-Answer: <answer><!-- Integer or `NEW` here --><\answer>
+<!-- 200 or fewer characters in English here -->
+Answer: <!-- Integer or `NEW` here -->
+
+### Example Responses
+```
+The last Event belongs to the final HLC, because it continues the input of the `ssh` command at the Bash prompt.
+Answer: 1
+```
+
+```
+The last Event belongs to a new HLC, because it contains the first characters of the response to the `ssh` command the user entered at the Bash prompt.
+Answer: NEW
 ```
 
 # Notes:
  * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
  * Most of the time, the dataset will end in an incomplete HLC, even if you were to add the last element to the final HLC; this is normal, as we are processing terminal input as it arrives, not a complete terminal session.
- * In a terminal session, if the remote software wants the user to see what they are typing, it has to repeat the characters back to the user.
+ * In a terminal session, if the remote software wants the user to see what they are typing, it has to repeat the characters back to the user. Echoed characters are common, and usually are a part of the same HLC.
 
 # Dataset to be evaluated:
