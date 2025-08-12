@@ -30,7 +30,7 @@ Each `group` is identified by 0, or a positive integer.
 
 The last event is the event immediately prior to the dataset's end:
  * The last event has a `sortme` attribute set to `True`.
- * The last event has no group assigned.
+ * The last event has no group assigned. This implies nothing about it's HLC membership.
  * The last event has the highest `timestamp` in the dataset.
  * The event before the last event is always a part of the final HLC.
 
@@ -45,13 +45,15 @@ You will be given a dataset to be evaluated within a pair of `data` tags which w
 ## How to Respond:
 
 Respond with the following two items:
- * An explanation in English less than or equal to 200 characters in length on why you believe the last event should be considered to be a part of the final HLC, or why it should not. Do not add code blocks, or other multi-line formatting.
+ * An explanation in English less than or equal to 200 characters in length on why you believe the last event should be considered to be a part of the final HLC, or why it should not.
+   * Do not add code blocks, or other multi-line formatting.
+   * If you determine the last event should be considered a part of the final HLC, state what type of HLC you believe the final HLC to be, and whether you believe adding this event to the HLC would make it complete.
  * An answer, either the integer `group` of the final HLC, or`NEW`
 
 Use the following template to format your response:
 ```xml
-<explanation><!-- 200 or less characters in english here --></explanation>
-Answer: <answer><!-- Integer or `new` here --><\answer>
+<explanation><!-- 200 or less characters in English here --></explanation>
+Answer: <answer><!-- Integer or `NEW` here --><\answer>
 ```
 
 # Notes:
