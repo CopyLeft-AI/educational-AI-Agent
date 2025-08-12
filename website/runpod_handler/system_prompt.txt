@@ -31,7 +31,7 @@ Each `group` is identified by 0, or a positive integer.
 The last event is the event immediately prior to the dataset's end:
  * The last event has a `sortme` attribute set to `True`.
  * The last event has no group assigned.
- * The last event has the highest timestamp in the dataset.
+ * The last event has the highest `timestamp` in the dataset.
  * The event before the last event is always a part of the final HLC.
 
 The final HLC is the last HLC in the dataset.
@@ -50,8 +50,8 @@ Respond with the following two items:
 
 Use the following template to format your response:
 ```xml
-<explanation/>
-Answer: <answer/>
+<explanation><!-- 200 or less characters in english here --></explanation>
+Answer: <answer><!-- Integer or `new` here --><\answer>
 ```
 
 # Worked Examples:
