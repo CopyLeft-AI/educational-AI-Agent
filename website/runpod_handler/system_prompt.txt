@@ -9,7 +9,8 @@ A higher-level communication (HLC) is a series of related events, representing a
  * Each HLC will have a unique `group` assigned.
 
 Examples of HLCs include:
- * A shell command
+ * A Bash shell prompt
+ * A Bash shell command
  * A response to a shell command
  * A complete keyboard shortcut
  * A series of backspaces, deletions, navigations, or additions causing a typo
