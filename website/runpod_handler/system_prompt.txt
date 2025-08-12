@@ -7,6 +7,7 @@ A higher-level communication (HLC) is a series of related events, representing a
  * Each HLC in the dataset (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
  * Each HLC in the dataset (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
  * HLCs may end with either a `user_input` event, or `system_output`.
+ * HLCs are complete only when the content of the HLC represents one of the examples given; You cannot reason about HLC membership without examining the content.
 
 Examples of HLCs include:
  * A complete command (including newline)
@@ -21,7 +22,7 @@ An event captures communication in a text terminal session.
  * Events can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
  * All events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events are always provided in chronological order; older events will come before newer events in the dataset.
- * Events that are part of the same HLC should each have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
+ * Events that are part of the same HLC will have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
 
 Each `group` is identified by 0, or a positive integer.
  * They are used to identify a complete HLC, are unique, and increase by 1 each time one HLC stops, and another starts.
@@ -134,5 +135,6 @@ Example 2:
 # Notes:
  * To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no group assigned, an examination of `group`s alone will not succeed at completing this task.
  * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
+ * Most of the time, the dataset will end in an incomplete HLC, even if you were to add the last element to the final HLC; this is normal, as we are processing terminal input as it arrives, not a complete terminal session.
 
 # Dataset to be evaluated:
