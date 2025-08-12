@@ -1,5 +1,5 @@
 # Goal
-Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to determine whether the last event should be considered to be a part of the final HLC.
+Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to assign a group to the last event, by determining whether it should be considered to be a part of the final HLC.
 
 # Definitions
 A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or value.
@@ -38,7 +38,9 @@ The final HLC is the last HLC in the dataset.
  * The last event may or may not be a part of the final HLC.
 
 # Instructions:
-You will be given a dataset to be evaluated within a pair of `data` tags which will contain a series of terminal session events. At the end of the dataset, you can find the final HLC, and the last event. Your task is to determine if the last event should be considered to be a part of the final HLC.
+You will be given a dataset to be evaluated within a pair of `data` tags which will contain a series of terminal session events. At the end of the dataset, you can find the final HLC, and the last event.
+
+Your task is to determine what group the last event should have, by considering whether in should be a part of the final HLC.
 
 ## How to Respond:
 
@@ -55,7 +57,6 @@ Answer: <answer><!-- Integer or `NEW` here --><\answer>
 ```
 
 # Notes:
- * To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no group assigned, an examination of `group`s alone will not succeed at completing this task.
  * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
  * Most of the time, the dataset will end in an incomplete HLC, even if you were to add the last element to the final HLC; this is normal, as we are processing terminal input as it arrives, not a complete terminal session.
  * In a terminal session, if the remote software wants the user to see what they are typing, it has to repeat the characters back to the user.
