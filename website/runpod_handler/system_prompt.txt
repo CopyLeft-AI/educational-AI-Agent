@@ -2,19 +2,16 @@
 Your goal is to use a set of higher-level-communications (HLCs) and one final possibly incomplete HLC to determine whether the last event should be considered to be a part of the final HLC.
 
 # Definitions
-A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or datum.
+A higher-level communication (HLC) is a series of related events, representing a single idea, concept, or value.
  * The first HLC starts at the beginning of the dataset you are evaluating.
- * Each HLC in the dataset (excepting the first HLC) starts where the previous HLC stops, and is assigned the next, higher `group` identifier.
- * Each HLC in the dataset (excepting the final HLC) is completed when it is followed by the first event of the next HLC, with the next `group`.
- * HLCs may end with either a `user_input` event, or `system_output`.
- * HLCs are complete only when the content of the HLC represents one of the examples given; You cannot reason about HLC membership without examining the content.
+ * Events in an HLC are contiguous, no event from any other HLC will occur between the first and last event of a given HLC.
+ * HLCs are complete only when the content of the HLC represents an idea such as one of the examples given; You cannot reason about HLC membership without examining the content.
+ * Each HLC will have a unique `group` assigned.
 
 Examples of HLCs include:
- * A complete command (including newline)
- * A response to a command
- * A system message
+ * A shell command
+ * A response to a shell command
  * A complete keyboard shortcut
- * An escape sequence that redraws a portion of the screen
  * A series of backspaces, deletions, navigations, or additions causing a typo
  * A series of backspaces, deletions, navigations, or additions correcting a typo
 
