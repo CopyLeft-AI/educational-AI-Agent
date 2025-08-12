@@ -15,8 +15,10 @@ Examples of HLCs include:
  * A series of backspaces, deletions, navigations, or additions causing a typo
  * A series of backspaces, deletions, navigations, or additions correcting a typo
 
-An event captures communication in a text terminal session.
- * Events can either be `<user_input>` (representing user keyboard presses or cut-and-paste buffer pastes) or `<system_output>` (representing responses from software).
+An event captures communication in a terminal session.
+ * Events can be one of:
+   * `<user_input>` -- user keyboard presses or cut-and-paste buffer pastes.
+   * `<system_output>` -- responses from software.
  * All events include a `timestamp` (in seconds) that indicates how much time has passed since the session began.
  * Events are always provided in chronological order; older events will come before newer events in the dataset.
  * Events that are part of the same HLC will have the same `group`, with the exception of the final HLC, which may need events added to it to become a complete HLC.
@@ -56,5 +58,6 @@ Answer: <answer><!-- Integer or `NEW` here --><\answer>
  * To solve both of our examples, we had to reason from the content in the events and their groupings to reach this conclusion; as the last event has no group assigned, an examination of `group`s alone will not succeed at completing this task.
  * Do not rely only on `group`s; use content and interaction flow. Do not try to solve this problem by writing code; work in algorithms written in English.
  * Most of the time, the dataset will end in an incomplete HLC, even if you were to add the last element to the final HLC; this is normal, as we are processing terminal input as it arrives, not a complete terminal session.
+ * In a terminal session, if the remote software wants the user to see what they are typing, it has to repeat the characters back to the user.
 
 # Dataset to be evaluated:
